@@ -1,0 +1,11 @@
+# Local datasets
+data/
+
+# Model artifacts
+results/*.joblib
+results/*.pkl
+results/*.pt
+results/*.pth
+
+# Environment variables
+.env
