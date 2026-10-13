@@ -1,0 +1,2 @@
+True Negatives,False Positives,False Negatives,True Positives,False Positive Rate,False Negative Rate,AUC,Daily FP Cost (USD)
+87924,13,2,50343,0.0001,0.0,1.0,61.6
