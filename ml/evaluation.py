@@ -68,3 +68,35 @@ if __name__ == "__main__":
 
     evaluate_model("XGBoost (Tuned)", y_test, y_pred_xgb, y_proba_xgb)
     evaluate_model("Random Forest",   y_test, y_pred_rf,  y_proba_rf)
+
+
+
+
+print("\n" + "="*45)
+print("OVERFITTING CHECK")
+print("="*45)
+
+X_train = pd.read_csv('../data/X_train.csv')
+y_train = pd.read_csv('../data/y_train.csv').squeeze()
+
+# Evaluate on TRAINING data
+y_pred_train  = xgb.predict(X_train)
+y_proba_train = xgb.predict_proba(X_train)[:, 1]
+
+train_f1  = f1_score(y_train, y_pred_train)
+train_acc = accuracy_score(y_train, y_pred_train)
+
+# Evaluate on TEST data
+test_f1  = f1_score(y_test, y_pred_xgb)
+test_acc = accuracy_score(y_test, y_pred_xgb)
+
+print(f"Train Accuracy: {train_acc:.4f}  |  Test Accuracy: {test_acc:.4f}")
+print(f"Train F1:       {train_f1:.4f}  |  Test F1:       {test_f1:.4f}")
+print(f"Difference:     {abs(train_f1 - test_f1):.4f}")
+
+if abs(train_f1 - test_f1) < 0.01:
+    print("\n✅ No overfitting — train and test scores are very close")
+elif abs(train_f1 - test_f1) < 0.05:
+    print("  Slight overfitting — acceptable for this dataset")
+else:
+    print("  Overfitting detected — model memorized training data")
