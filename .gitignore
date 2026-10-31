@@ -9,3 +9,5 @@ results/*.pth
 
 # Environment variables
 .env
+.venv/
+__pycache__/
