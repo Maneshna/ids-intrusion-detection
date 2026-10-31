@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flowwatch · IDS Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"></head><body><div class="wrap">
+<header>
+  <div class="logo"><i>◈</i>flowwatch</div>
+  <nav aria-label="Main">
+    <button class="nav" data-go="dash" aria-current="page">Dashboard</button>
+    <button class="nav" data-go="pred">Predictions</button>
+    <button class="nav" data-go="expl">Explainability</button>
+  </nav>
+  <div class="right">
+    <select id="st" aria-label="Preview a state"><option value="">Live</option><option value="empty">Preview: Empty</option><option value="loading">Preview: Loading</option><option value="success">Preview: Success</option><option value="clear">Preview: No attacks</option><option value="error">Preview: Error</option></select>
+    <button class="chip" id="th" aria-label="Toggle light or dark">◐</button>
+  </div>
+</header>
+
+<section id="dash">
+  <div class="top"><div><h1>Overview</h1><p class="sub">How well the detector performs on held-out test traffic.</p></div>
+    <div class="right"><span class="chip">Test set · Oct 2026</span><span class="lbl">compared to</span><span class="chip">Previous model</span></div></div>
+  <div class="grid g1">
+    <div class="card hasask"><button class="dots" aria-label="More">···</button><h2>Detection funnel</h2>
+      <div class="fun" id="fun"></div><div class="tip" id="tip"></div>
+      <div class="pad"></div>
+      <div class="ask"><div>✦ What would you like to explore next?</div><input id="ask" placeholder="Ask why flows were flagged, then press Enter" aria-label="Explore next"></div>
+    </div>
+    <div class="card"><button class="dots" aria-label="More">···</button><h2>Accuracy</h2>
+      <div class="big">97.4%</div><span class="tr">▲ 0.8 pts vs previous</span>
+      <div class="hb" style="--c:var(--green)"><span class="lbl">Benign cleared</span><i><b style="width:98%"></b></i></div>
+      <div class="hb" style="--c:var(--red)"><span class="lbl">Attacks caught</span><i><b style="width:97.6%"></b></i></div>
+      <div class="hb" style="--c:var(--amber)"><span class="lbl">Anomalies unconfirmed</span><i><b style="width:12%"></b></i></div>
+    </div>
+  </div>
+  <div class="grid g2">
+    <div class="card"><button class="dots" aria-label="More">···</button><h2>False positive rate</h2>
+      <div class="big" style="margin-top:6px">1.9%</div><span class="tr">▼ 0.5 pts vs previous</span>
+      <svg id="step" viewBox="0 0 280 70" width="100%" height="70" aria-hidden="true" style="margin-top:10px"></svg></div>
+    <div class="card"><button class="dots" aria-label="More">···</button><h2>Attacks detected</h2>
+      <div class="mini"><div class="big">12.8k</div><div class="dg" id="dg" aria-hidden="true"></div></div>
+      <div class="lbl" style="margin-top:8px">of 13.1k labeled attacks · peak Wed</div></div>
+    <div class="card ins"><span class="chip">Insights</span><div><div class="big">0.99</div><div>AUC: how cleanly attacks are separated from normal traffic.</div></div></div>
+  </div>
+  <div class="grid g3">
+    <div class="card"><h2>ROC curve</h2><img src="/results/roc_curve.png" alt="ROC curve" style="width:100%;border-radius:16px;display:block"></div>
+    <div class="card"><h2>How to read this</h2>
+      <p>The ROC curve shows the trade-off between catching attacks and raising false alarms.</p>
+      <p>The closer the line bows toward the top-left corner, the better. A diagonal line means the model is guessing.</p>
+      <p>False positive rate is the share of normal traffic wrongly flagged. Lower is better.</p></div>
+  </div>
+</section>
+
+<section id="pred" class="hide">
+  <div class="top"><div><h1>Predictions</h1><p class="sub">Upload a file of network flows. Each row is labeled Attack or Benign.</p></div></div>
+  <div class="drop" id="drop"><div class="t">Drag and drop a CSV file here</div><div class="m">Accepted: .csv · one network flow per row</div>
+    <button class="btn pri" id="choose">Choose CSV</button><input type="file" id="file" accept=".csv,text/csv" hidden></div>
+  <div id="out" aria-live="polite"></div>
+</section>
+
+<section id="expl" class="hide">
+  <div class="top"><div><h1>Explainability</h1><p class="sub">Which traffic features the detector relies on, and how they push a decision.</p></div></div>
+  <div class="grid g4">
+    <div class="card"><h2>Feature importance</h2><img src="/results/shap_summary_bar.png" alt="Feature importance" style="width:100%;border-radius:16px;display:block"><p class="cap">Longer bars mean the feature matters more overall. A few features drive most decisions.</p></div>
+    <div class="card"><h2>Beeswarm plot</h2><img src="/results/shap_beeswarm.png" alt="SHAP beeswarm" style="width:100%;border-radius:16px;display:block"><p class="cap">Each dot is one flow. Dots to the right push toward Attack; red is a high feature value, blue a low one.</p></div>
+  </div>
+</section>
+</div>
+<script src="app.js"></script></body></html>
