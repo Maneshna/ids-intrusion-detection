@@ -7,6 +7,9 @@ scaler     = pickle.load(open('../results/scaler.pkl', 'rb'))
 xgb_model  = pickle.load(open('../results/xgboost_tuned_model.pkl', 'rb'))
 iso_forest = pickle.load(open('../results/isolation_forest_model.pkl', 'rb'))
 
+# Run XGBoost on CPU (avoids the GPU/CPU mismatch warning, works on any server)
+xgb_model.set_params(device='cpu')
+
 def predict_flows(df: pd.DataFrame):
     """
     Takes a DataFrame of raw network flows,
@@ -15,14 +18,19 @@ def predict_flows(df: pd.DataFrame):
     # Strip column spaces
     df.columns = df.columns.str.strip()
 
-    # Drop label if present
+    
     if 'Label' in df.columns:
         df = df.drop(columns=['Label'])
 
-    # Scale
+    
+    mapping = {c.strip(): c for c in scaler.feature_names_in_}
+    df = df.rename(columns=lambda c: mapping.get(c.strip(), c))
+    df = df[list(scaler.feature_names_in_)]
+
+    
     features_scaled = scaler.transform(df)
 
-    # Predictions
+    
     predictions    = xgb_model.predict(features_scaled)
     probabilities  = xgb_model.predict_proba(features_scaled)[:, 1]
     anomaly_scores = iso_forest.decision_function(features_scaled)
