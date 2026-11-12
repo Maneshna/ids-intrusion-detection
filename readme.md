@@ -44,8 +44,7 @@ The goal is not only accuracy but also trust: analysts are overwhelmed by false 
 ```
 CSV of network flows
         |
-        v
-React dashboard  -->  Express API  -->  Python scoring (scaler + models)
+CSS dashboard  -->  Express API  -->  Python scoring (scaler + models)
         ^                                        |
         |                                        v
         +---------- JSON results <---- attack/benign, confidence, anomaly flag
@@ -73,7 +72,7 @@ ids-intrusion-detection/
 ├── notebooks/             # Exploration and experiments (02 to 07)
 ├── results/               # Saved models, scaler, plots, metrics
 ├── server/                # Express backend
-├── client/                # React frontend
+├── client/                # CSS HTML frontend
 ├── demo_samples/          # Sample CSVs for demos
 └── README.md
 ```
@@ -288,4 +287,4 @@ Uploaded CSVs must contain the same flow feature columns as the training data. A
 ## Acknowledgements
 
 - CICIDS2017 dataset: Canadian Institute for Cybersecurity, University of New Brunswick
-- scikit-learn, XGBoost, SHAP, Express, React
+- scikit-learn, XGBoost, SHAP
