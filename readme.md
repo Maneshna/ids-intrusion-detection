@@ -1,4 +1,5 @@
 # Network Intrusion Detection System with Explainable ML
+Working link: [website](https://ids-intrusion-detection-frontend.vercel.app/#dash)
 
 A machine learning system that classifies network flows as **attack or benign**, flags **unusual behavior** with an anomaly detector, and **explains every decision** with SHAP. A web dashboard lets a security analyst upload flow data and review the results.
 
