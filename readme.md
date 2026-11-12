@@ -274,6 +274,7 @@ Uploaded CSVs must contain the same flow feature columns as the training data. A
 - Adversarial robustness testing.
 - Live capture with CICFlowMeter and a streaming pipeline (queue plus WebSocket alerts).
 - A learned fusion of the classifier and anomaly scores.
+- Watch the CICFlowMeter output file for new rows using `watchfiles` (successor to `watchgod`), so flows from live capture are scored automatically as they are written, without manual uploads.
 
 ## Team
 
