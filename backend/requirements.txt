@@ -1,4 +1,9 @@
+
 flask
+flask-cors
+gunicorn
 pandas
 numpy
-# plus whatever your model needs, e.g. scikit-learn, joblib, xgboost, shap
+scikit-learn
+joblib
+shap

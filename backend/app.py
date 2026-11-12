@@ -7,12 +7,16 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from flask import Flask, jsonify, request, send_from_directory
+from flask_cors import CORS
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))          # lets us `import ml.predict`
 FRONTEND, RESULTS = ROOT / "frontend", ROOT / "results"
 
 app = Flask(__name__, static_folder=None)
+CORS(app, resources={
+    r"/api/*": {"origins": "*"}
+})
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024   # 50 MB upload limit
 
 

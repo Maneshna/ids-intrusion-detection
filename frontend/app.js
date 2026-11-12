@@ -1,4 +1,6 @@
-const $=s=>document.querySelector(s),out=$("#out"),PS=25;let rows=[],page=0,onlyAtk=false,tmr;
+const $=s=>document.querySelector(s),out=$("#out"),PS=25;
+
+const API_URL = "https://ids-intrusion-detection.onrender.com";let rows=[],page=0,onlyAtk=false,tmr;
 function go(id){["dash","pred","expl"].forEach(k=>$("#"+k).classList.toggle("hide",k!==id));
  document.querySelectorAll(".nav").forEach(b=>b.dataset.go===id?b.setAttribute("aria-current","page"):b.removeAttribute("aria-current"));
  try{location.hash=id}catch(e){}}
@@ -36,10 +38,15 @@ function render(){const A=rows.filter(r=>r.atk).length,N=rows.length;
  $("#fa").onchange=e=>{onlyAtk=e.target.checked;page=0;render()};$("#pv").onclick=()=>{page--;render()};$("#nx").onclick=()=>{page++;render()}}
 async function analyze(file){clearTimeout(tmr);loading();
  try{const fd=new FormData();fd.append("file",file);
-  const r=await fetch("/api/predict",{method:"POST",body:fd}),j=await r.json();
+  const r = await fetch(`${API_URL}/api/predict`, {
+    method: "POST",
+    body: fd
+});
+
+const j = await r.json();
   if(!r.ok)throw new Error(j.error||"Server error");
   $("#st").value="";success(j.rows)}
- catch(e){error(e.message==="Failed to fetch"?"Can’t reach the server. Start the backend and open http://127.0.0.1:5000.":e.message)}}
+ catch(e){error(e.message==="Failed to fetch"?"Can’t reach the server. Please check whether the backend is running.":e.message)}}
 function handle(f){if(!f)return;
  if(!/\.csv$/i.test(f.name))return error(`“${f.name}” is not a CSV. Choose a file that ends in .csv.`);
  analyze(f)}
