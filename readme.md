@@ -279,9 +279,10 @@ Uploaded CSVs must contain the same flow feature columns as the training data. A
 
 | Name | Role |
 |------|------|
-| (add name) | ML: data preparation, model training, evaluation, SHAP |
-| (add name) | ML: (fill in) |
-| (add name) | Full-stack: backend API and React dashboard |
+| (Madhura) | ML: data preparation |
+| (Maneshna) | ML: model training, evaluation, SHAP |
+| (Sanchit) | Frontend: CSS HTML |
+| (Unnati) | Full-stack: backend API |
 
 ## Acknowledgements
 
